@@ -44,6 +44,20 @@
               "target": "Package",
               "version": "[6.2.3, )"
             },
+            "microsoft.entityframeworkcore": {
+              "target": "Package",
+              "version": "[6.0.6, )"
+            },
+            "microsoft.entityframeworkcore.design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.6, )"
+            },
+            "microsoft.entityframeworkcore.sqlite": {
+              "target": "Package",
+              "version": "[6.0.6, )"
+            },
             "telegram.bot": {
               "target": "Package",
               "version": "[18.0.0, )"

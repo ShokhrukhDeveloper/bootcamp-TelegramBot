@@ -1,6 +1,7 @@
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace bot.Services.BotUpdateHandler;
 
@@ -30,16 +31,26 @@ public partial class BotUpdateHandler
     }
 
     private async Task HandleTextMessageAsync(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
-    {
+    {          
+        _logger.LogInformation("from: {from.FirstName}, message: {message.Text}",message.From?.FirstName,message.Text);
+
         var from=message.From;
-        _logger.LogInformation("from: {from.FirstName}, message: {message.Text}",from?.FirstName,message.Text);
-        await botClient.SendTextMessageAsync(
+        
+        if(message.Text.Contains("uz",StringComparison.CurrentCultureIgnoreCase))
+        {
+            await _userService.UpdateUserLanguageCode(from?.Id,"uz");
+        }else if(message.Text.Contains("en",StringComparison.CurrentCultureIgnoreCase))
+        {
+            await _userService.UpdateUserLanguageCode(from?.Id,"en");
+        }else
+        {
+
+       await botClient.SendTextMessageAsync(
             chatId: message.Chat.Id,
             text:_localizer["greeting"],
             replyToMessageId:message.MessageId,
-            cancellationToken:cancellationToken
-
-
-        );
+            
+            cancellationToken:cancellationToken);
+        }
     }
 }
